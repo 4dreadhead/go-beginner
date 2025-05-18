@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	city   := flag.String("city", "", "Weather city")
+	city := flag.String("city", "", "Weather city")
 	format := flag.Int("format", 1, "Weather format")
 	flag.Parse()
 
@@ -21,9 +21,9 @@ func main() {
 	}
 	fmt.Printf("City is %s\n", geoData.City)
 
-	weather, err := weather.GetWeather(geoData, *format)
+	wthr, err := weather.GetWeather(geoData, *format)
 	if err != nil {
 		color.Red("Can't get weather: %v", err)
 	}
-	fmt.Printf("Weather: %v", weather)
+	fmt.Printf("Weather: %v", wthr)
 }
