@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/gofrs/uuid"
 	"math/rand/v2"
 	"net/url"
 	"time"
-	"github.com/gofrs/uuid"
 )
 
 var letters = []rune("abcdefghijklmnopqrstuvwyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-=+<>?/")
@@ -31,10 +31,10 @@ func NewAccountWithTimestamp(login string, password string, urlString string) (*
 	}
 	id, _ := uuid.NewV4()
 	acc := Account{
-		Id: id.String(),
-		Login: login,
-		Password: password,
-		Url: urlString,
+		Id:        id.String(),
+		Login:     login,
+		Password:  password,
+		Url:       urlString,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -45,7 +45,7 @@ func NewAccountWithTimestamp(login string, password string, urlString string) (*
 	return &acc, nil
 }
 
-func (acc *Account) ToBytes() ([]byte, error){
+func (acc *Account) ToBytes() ([]byte, error) {
 	file, err := json.Marshal(acc)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,9 @@ func (acc *Account) ToBytes() ([]byte, error){
 
 func (acc *Account) OutputIndexed(index int) {
 	result, err := json.MarshalIndent(acc, "", "\t")
-	if err != nil { return }
+	if err != nil {
+		return
+	}
 
 	fmt.Println(string(result))
 }

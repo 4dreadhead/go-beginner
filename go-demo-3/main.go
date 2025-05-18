@@ -5,10 +5,11 @@ import (
 )
 
 type bookmarkMap = map[string]string
-const DEFAULT_SIZE = 4
+
+const DefaultSize = 4
 
 func main() {
-	data := make(bookmarkMap, DEFAULT_SIZE)
+	data := make(bookmarkMap, DefaultSize)
 Menu:
 	for {
 		switch takeChoice() {

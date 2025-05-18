@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	transactions := []float64{}
+	var transactions []float64
 	for {
 		var userInput float64
 		fmt.Print("Enter transaction: ")

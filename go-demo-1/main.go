@@ -1,8 +1,8 @@
 package main
 
 import (
-	"math"
 	"fmt"
+	"math"
 	"strings"
 )
 
@@ -13,7 +13,11 @@ func main() {
 		userHeight, userWeightKg := InputResult()
 		bodyMassIndex := CalculateResult(userHeight, userWeightKg)
 		OutputResult(bodyMassIndex)
-		if NeedToContinue() { continue } else { break }
+		if NeedToContinue() {
+			continue
+		} else {
+			break
+		}
 	}
 }
 
