@@ -1,11 +1,13 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
 	"goadvancedserver/internal/link"
+	"goadvancedserver/internal/user"
+	"os"
+
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"os"
 )
 
 func main() {
@@ -17,5 +19,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&link.Link{})
+	db.AutoMigrate(&link.Link{}, &user.User{})
 }

@@ -1,7 +1,7 @@
 package auth
 
 type LoginRequest struct {
-	Username string `json:"username" validate:"required,email"`
+	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
 }
 
@@ -10,11 +10,9 @@ type LoginResponse struct {
 }
 
 type RegisterRequest struct {
-	Username        string `json:"username" validate:"required,email"`
-	Password        string `json:"password" validate:"required"`
-	PasswordConfirm string `json:"passwordConfirm" validate:"required"`
-	FirstName       string `json:"firstName" validate:"required"`
-	LastName        string `json:"lastName" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+	Name     string `json:"name" validate:"required"`
 }
 
 type RegisterResponse struct {
