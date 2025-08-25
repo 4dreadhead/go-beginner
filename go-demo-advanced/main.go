@@ -5,7 +5,8 @@ import (
 )
 
 func main() {
-	goroutineexamples.HeadExample()
-	goroutineexamples.SumExample()
-	goroutineexamples.PingExample()
+	//goroutineexamples.HeadExample()
+	//goroutineexamples.SumExample()
+	//goroutineexamples.PingExample()
+	goroutineexamples.SquareExample()
 }

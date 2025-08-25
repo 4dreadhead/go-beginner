@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres:17.5
+    environment:
+      POSTGRES_DB: link
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+      TZ: UTC
+    volumes:
+      - ./tmp/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
