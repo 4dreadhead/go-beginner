@@ -2,7 +2,7 @@ package auth
 
 import (
 	"goadvancedserver/configs"
-	"goadvancedserver/pkg/jwt"
+	"goadvancedserver/pkg/jwthandler"
 	"goadvancedserver/pkg/request"
 	"goadvancedserver/pkg/response"
 	"net/http"
@@ -39,7 +39,8 @@ func (handler *Handler) Login() http.HandlerFunc {
 			response.Error(w, err, http.StatusUnauthorized)
 			return
 		}
-		token, err := jwt.NewJWT(handler.Config.Auth.Secret).Create(email)
+		data := jwthandler.Data{Email: email}
+		token, err := jwthandler.NewJWT(handler.Config.Auth.Secret).Create(data)
 		if err != nil {
 			response.Error(w, err, http.StatusInternalServerError)
 			return
@@ -63,7 +64,8 @@ func (handler *Handler) Register() http.HandlerFunc {
 			response.Error(w, err, http.StatusUnauthorized)
 			return
 		}
-		token, err := jwt.NewJWT(handler.Config.Auth.Secret).Create(email)
+		data := jwthandler.Data{Email: email}
+		token, err := jwthandler.NewJWT(handler.Config.Auth.Secret).Create(data)
 		if err != nil {
 			response.Error(w, err, http.StatusInternalServerError)
 			return

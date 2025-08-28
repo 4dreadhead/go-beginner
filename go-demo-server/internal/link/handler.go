@@ -28,9 +28,10 @@ func NewLinkHandler(router *http.ServeMux, deps HandlerDeps) {
 		Repository: deps.Repository,
 	}
 	router.HandleFunc("POST /links/create", handler.Create())
-	router.Handle("POST /links/{id}", middleware.Authorize(handler.Update()))
+	router.Handle("POST /links/{id}", middleware.Authorize(handler.Update(), deps.Config))
 	router.HandleFunc("DELETE /links/{id}", handler.Delete())
-	router.HandleFunc("GET /s/{hash}", handler.RedirectTo())
+	router.Handle("GET /s/{hash}", middleware.Authorize(handler.RedirectTo(), deps.Config))
+	router.Handle("GET /links", handler.GetAll())
 }
 
 const maxHashTries = 10
@@ -69,6 +70,10 @@ func (handler *Handler) Create() http.HandlerFunc {
 
 func (handler *Handler) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email, ok := r.Context().Value(middleware.ContextEmailKey).(string)
+		if ok {
+			fmt.Println(email)
+		}
 		body, err := request.Json[UpdateRequest](r)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -128,4 +133,31 @@ func (handler *Handler) RedirectTo() http.HandlerFunc {
 		}
 		http.Redirect(w, r, link.Url, http.StatusFound)
 	}
+}
+
+func (handler *Handler) GetAll() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		limit, err := extractIntFromQuery(w, r, "limit")
+		if err != nil {
+			return
+		}
+		offset, err := extractIntFromQuery(w, r, "offset")
+		if err != nil {
+			return
+		}
+
+		links := handler.Repository.GetList(limit, offset)
+		count := handler.Repository.Count()
+
+		response.Json(w, LinksPageResponse{Links: links, Count: count}, 200)
+	}
+}
+
+func extractIntFromQuery(w http.ResponseWriter, r *http.Request, key string) (int, error) {
+	number, err := strconv.Atoi(r.URL.Query().Get(key))
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Invalid %s", key), http.StatusBadRequest)
+		return 0, err
+	}
+	return number, nil
 }
